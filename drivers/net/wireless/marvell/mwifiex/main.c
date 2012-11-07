@@ -597,8 +597,8 @@ static int _mwifiex_fw_dpc(const struct firmware *firmware, void *context)
 
 	rtnl_lock();
 	/* Create station interface by default */
-	wdev = mwifiex_add_virtual_intf(adapter->wiphy, "mlan%d", NET_NAME_ENUM,
-					NL80211_IFTYPE_STATION, NULL);
+	wdev = mwifiex_add_virtual_intf(adapter->wiphy, "wlan%d", NET_NAME_ENUM,
+					NL80211_IFTYPE_STATION, NULL, NULL);
 	if (IS_ERR(wdev)) {
 		mwifiex_dbg(adapter, ERROR,
 			    "cannot create default STA interface\n");
