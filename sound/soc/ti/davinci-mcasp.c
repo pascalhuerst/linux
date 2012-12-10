@@ -334,6 +334,8 @@ static void mcasp_stop_tx(struct davinci_mcasp *mcasp)
 		mcasp_set_clk_pdir(mcasp, false);
 
 
+	val |= TXCLKRST;
+
 	mcasp_set_reg(mcasp, DAVINCI_MCASP_GBLCTLX_REG, val);
 	mcasp_set_reg(mcasp, DAVINCI_MCASP_TXSTAT_REG, 0xFFFFFFFF);
 
