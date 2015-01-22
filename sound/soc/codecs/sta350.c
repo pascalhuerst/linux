@@ -818,6 +818,8 @@ static int sta350_startup_sequence(struct sta350_priv *sta350)
 		mdelay(1);
 	}
 
+	regcache_mark_dirty(sta350->regmap);
+
 	return 0;
 }
 
@@ -1043,6 +1045,7 @@ static void sta350_remove(struct snd_soc_component *component)
 {
 	struct sta350_priv *sta350 = snd_soc_component_get_drvdata(component);
 
+	sta350_set_bias_level(codec, SND_SOC_BIAS_OFF);
 	regulator_bulk_disable(ARRAY_SIZE(sta350->supplies), sta350->supplies);
 }
 
