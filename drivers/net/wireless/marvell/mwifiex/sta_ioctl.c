@@ -549,6 +549,16 @@ int mwifiex_enable_hs(struct mwifiex_adapter *adapter)
 	set_bit(MWIFIEX_IS_HS_ENABLING, &adapter->work_flags);
 	mwifiex_cancel_all_pending_cmd(adapter);
 
+	/* if the MMC host is already in suspend it will not detect SDIO irqs
+	 * and we might run into response timeout. By claiming the MMC host we
+	 * wake it up, which is sufficient to detect a pending IRQ
+	 */
+	{
+		struct sdio_mmc_card *card = adapter->card;
+		sdio_claim_host(card->func);
+		sdio_release_host(card->func);
+	}
+
 	if (mwifiex_set_hs_params(mwifiex_get_priv(adapter,
 						   MWIFIEX_BSS_ROLE_STA),
 				  HostCmd_ACT_GEN_SET, MWIFIEX_SYNC_CMD,
